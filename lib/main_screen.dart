@@ -63,7 +63,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -82,6 +81,7 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
+
               child: Text(
                 'Our Products',
                 style: TextStyle(
@@ -90,87 +90,16 @@ class _MainScreenState extends State<MainScreen> {
                     fontWeight: FontWeight.bold),
               ),
             ),
+
             SizedBox(
               height: screenHeight * 0.25,
-              child: PageView.builder(
-                itemCount: productImages.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                        image: AssetImage(productImages[index]),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  );
-                },
-              ),
+              // PageView
+              child: pageViewUI(),
             ),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(16),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 0.75,
-              ),
-              itemCount: gridProducts.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 4,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(gridProducts[index]['image']),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  gridProducts[index]['name'],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(gridProducts[index]['price']),
-                              ],
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.add_shopping_cart),
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        '${gridProducts[index]['name']} added to cart'),
-                                    duration: const Duration(seconds: 2),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+
+            // GridView
+            gridViewUI(),
+
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text('Hot Offers 🔥',
@@ -181,48 +110,140 @@ class _MainScreenState extends State<MainScreen> {
             ),
             SizedBox(
               height: screenHeight * 0.2,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: hotOffers.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: screenWidth * 0.4,
-                    margin: const EdgeInsets.only(left: 16),
-                    child: Card(
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Image.asset(
-                              hotOffers[index]['image'],
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  hotOffers[index]['name'],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  hotOffers[index]['discount'],
-                                  style: const TextStyle(color: Colors.red),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+              //ListView
+              child: listViewUI(),
             ),
           ],
         ),
       ),
     );
   }
+
+  Widget pageViewUI() {
+    return PageView.builder(
+      itemCount: productImages.length,
+      itemBuilder: (context, index) {
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            image: DecorationImage(
+              image: AssetImage(productImages[index]),
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget gridViewUI(){
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 0.75,
+      ),
+      itemCount: gridProducts.length,
+      itemBuilder: (context, index) {
+        return Card(
+          elevation: 4,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(gridProducts[index]['image']),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          gridProducts[index]['name'],
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(gridProducts[index]['price']),
+                      ],
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add_shopping_cart),
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                '${gridProducts[index]['name']} added to cart'),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget listViewUI(){
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: hotOffers.length,
+      itemBuilder: (context, index) {
+        return Container(
+          width: screenWidth * 0.4,
+          margin: const EdgeInsets.only(left: 16),
+          child: Card(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Image.asset(
+                    hotOffers[index]['image'],
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        hotOffers[index]['name'],
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        hotOffers[index]['discount'],
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }
