@@ -1,16 +1,17 @@
-# shopping_app
+# Shopping App Flutter
 
-A new Flutter project.
+This repository contains a simple Flutter application designed to demonstrate a shopping interface.
 
-## Getting Started
+## Features:
+1. **Responsive UI**: Uses `mediaQuery` for dynamic layout.
+2. **Product Carousel**: Showcases products using `PageView`.
+3. **Product Grid**: Display product cards with an 'Add to Cart' feature.
+4. **Hot Offers Section**: ListView builder to display offers horizontally scrollable.
 
-This project is a starting point for a Flutter application.
+## Instructions:
+- Run the app using `flutter run`.
+- View the main shopping interface.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Code Explanation:
+- The `MainScreenPage` is the main widget containing all the UI elements.
+- `PageView`, `GridView`, and `ListView.builder` are used to manage the dynamic UI.
