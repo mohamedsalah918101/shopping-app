@@ -15,7 +15,11 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   final List<Map<String, dynamic>> gridProducts = [
-    {'name': 'Laptop', 'price': '\$999', 'image': 'assets/images/laptop.webp'},
+    {
+      'name': 'Laptop',
+      'price': '\$999',
+      'image': 'assets/images/laptop.webp'
+    },
     {
       'name': 'Smartphone',
       'price': '\$699',
