@@ -4,9 +4,14 @@ This repository contains a simple Flutter application designed to demonstrate a 
 
 ## Features:
 1. **Responsive UI**: Uses `mediaQuery` for dynamic layout.
-2. **Product Carousel**: Showcases products using `PageView`.
-3. **Product Grid**: Display product cards with an 'Add to Cart' feature.
-4. **Hot Offers Section**: ListView builder to display offers horizontally scrollable.
+2. **Form with Validation**:
+  - Full name field: Ensures the first letter is capitalized.
+  - Email field: Validates the presence of "@".
+  - Password field: Requires a minimum of 6 characters.
+  - Confirm password field: Ensures it matches the password.
+4. **Product Carousel**: Showcases products using `PageView`.
+5. **Product Grid**: Display product cards with an 'Add to Cart' feature.
+6. **Hot Offers Section**: ListView builder to display offers horizontally scrollable.
 
 ## Instructions:
 - Run the app using `flutter run`.
