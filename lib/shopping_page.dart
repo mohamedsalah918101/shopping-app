@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class ShoppingPage extends StatefulWidget {
+  const ShoppingPage({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<ShoppingPage> createState() => _ShoppingPageState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _ShoppingPageState extends State<ShoppingPage> {
   final List<String> productImages = [
     'assets/images/tv.jpg',
     'assets/images/tablet.jpg',
@@ -66,9 +66,11 @@ class _MainScreenState extends State<MainScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.blue,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.blue,
+        elevation: 5,
+        iconTheme: IconThemeData(color: Colors.white),
         title: const Text(
           'Shopping App',
           style: TextStyle(color: Colors.white),

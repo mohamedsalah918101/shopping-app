@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/main_screen.dart';
+import 'package:shopping_app/shopping_page.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -146,27 +147,37 @@ class _SignupPageState extends State<SignupPage> {
                 height: 25,
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
                           backgroundColor: Colors.green,
-                          title: Text("Success", style: TextStyle(color: Colors.white),),
-                          content: Text("Account created successfully!", style: TextStyle(color: Colors.white)),
+                          title: Text(
+                            "Success",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          content: Text("Account created successfully!",
+                              style: TextStyle(color: Colors.white)),
                           actions: [
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).pop();
-                                Navigator.pushReplacement(
+                                Navigator.of(context).pop();// Close the dialog
+
+                                // Fade animation using PageTransition Package
+                                Navigator.push(
                                   context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MainScreen(),
+                                  PageTransition(
+                                    type: PageTransitionType.fade,
+                                    alignment: Alignment.topCenter,
+                                    duration: Duration(seconds: 2),
+                                    child: ShoppingPage(),
                                   ),
                                 );
                               },
-                              child: Text("OK", style: TextStyle(color: Colors.white)),
+                              child: Text("Close",
+                                  style: TextStyle(color: Colors.white)),
                             ),
                           ],
                         );
@@ -190,7 +201,10 @@ class _SignupPageState extends State<SignupPage> {
                   }
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                child: Text("Sign Up", style: TextStyle(color: Colors.white, fontSize: 16),),
+                child: Text(
+                  "Sign Up",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
               ),
             ],
           ),
