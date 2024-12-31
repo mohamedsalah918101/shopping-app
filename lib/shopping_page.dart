@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({super.key});
@@ -15,11 +16,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
   ];
 
   final List<Map<String, dynamic>> gridProducts = [
-    {
-      'name': 'Laptop',
-      'price': '\$999',
-      'image': 'assets/images/laptop.webp'
-    },
+    {'name': 'Laptop', 'price': '\$999', 'image': 'assets/images/laptop.webp'},
     {
       'name': 'Smartphone',
       'price': '\$699',
@@ -71,11 +68,20 @@ class _ShoppingPageState extends State<ShoppingPage> {
         backgroundColor: Colors.blue,
         elevation: 5,
         iconTheme: IconThemeData(color: Colors.white),
-        title: const Text(
-          'Shopping App',
+        title: Text(
+          tr('shopping_app_title'),
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              // To switch the Languages between Arabic and English
+              changeLanguage();
+            },
+            icon: Icon(Icons.language, size: 30,),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -83,9 +89,8 @@ class _ShoppingPageState extends State<ShoppingPage> {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-
               child: Text(
-                'Our Products',
+                tr('our_products'),
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 25,
@@ -104,7 +109,8 @@ class _ShoppingPageState extends State<ShoppingPage> {
 
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text('Hot Offers 🔥',
+              child: Text(
+                  tr('hot_offers'),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
@@ -139,7 +145,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
     );
   }
 
-  Widget gridViewUI(){
+  Widget gridViewUI() {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -177,8 +183,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
                       children: [
                         Text(
                           gridProducts[index]['name'],
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(gridProducts[index]['price']),
                       ],
@@ -205,7 +210,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
     );
   }
 
-  Widget listViewUI(){
+  Widget listViewUI() {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return ListView.builder(
@@ -230,8 +235,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
                     children: [
                       Text(
                         hotOffers[index]['name'],
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
                         hotOffers[index]['discount'],
@@ -246,6 +250,14 @@ class _ShoppingPageState extends State<ShoppingPage> {
         );
       },
     );
+  }
+
+  changeLanguage() {
+    if(context.locale == Locale('en', 'US')) {
+      context.setLocale(Locale('ar', 'EG'));
+    } else {
+      context.setLocale(Locale('en', 'US'));
+    }
   }
 
 }

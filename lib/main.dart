@@ -1,8 +1,19 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_app/signup_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // using EasyLocalization Package for switch between Arabic and English
+  await EasyLocalization.ensureInitialized();
+  runApp(
+      EasyLocalization(
+          supportedLocales: [Locale('en', 'US'), Locale('ar', 'EG')],
+          path: 'languages',
+          fallbackLocale: Locale('en', 'US'),
+          child: MyApp()
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -13,7 +24,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Shopping App',
+      // Localization
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      title: tr('shopping_app_title'),
+
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
         useMaterial3: true,
