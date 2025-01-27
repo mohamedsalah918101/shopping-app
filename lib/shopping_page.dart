@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'login_page.dart';
+
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({super.key});
 
@@ -67,19 +69,22 @@ class _ShoppingPageState extends State<ShoppingPage> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         elevation: 5,
-        iconTheme: IconThemeData(color: Colors.white),
+        automaticallyImplyLeading: false,
         title: Text(
           tr('shopping_app_title'),
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
+        leading: IconButton(onPressed: () { 
+          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),));
+        }, icon: Icon(Icons.logout, color: Colors.white,),),
         actions: [
           IconButton(
             onPressed: () {
               // To switch the Languages between Arabic and English
               changeLanguage();
             },
-            icon: Icon(Icons.language, size: 30,),
+            icon: Icon(Icons.language, size: 30, color: Colors.white,),
           ),
         ],
       ),

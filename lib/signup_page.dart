@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_app/shopping_page.dart';
 import 'package:page_transition/page_transition.dart';
+
+import 'login_page.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -24,6 +27,8 @@ class _SignupPageState extends State<SignupPage> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
+        // iconTheme: IconThemeData(color: Colors.white),
+        automaticallyImplyLeading: false,
         title: Text(
           "SignUp Page",
           style: TextStyle(color: Colors.white),
@@ -149,40 +154,57 @@ class _SignupPageState extends State<SignupPage> {
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.green,
-                          title: Text(
-                            "Success",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          content: Text("Account created successfully!",
-                              style: TextStyle(color: Colors.white)),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();// Close the dialog
-
-                                // Fade animation using PageTransition Package
-                                Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    alignment: Alignment.topCenter,
-                                    duration: Duration(seconds: 2),
-                                    child: ShoppingPage(),
-                                  ),
-                                );
-                              },
-                              child: Text("Close",
-                                  style: TextStyle(color: Colors.white)),
+                    try {
+                      await FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.green,
+                            title: Text(
+                              "Success",
+                              style: TextStyle(color: Colors.white),
                             ),
-                          ],
-                        );
-                      },
-                    );
+                            content: Text("Account created successfully!",
+                                style: TextStyle(color: Colors.white)),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+
+                                  // Fade animation using PageTransition Package
+                                  Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.fade,
+                                      alignment: Alignment.topCenter,
+                                      duration: Duration(seconds: 2),
+                                      child: ShoppingPage(),
+                                    ),
+                                  );
+                                },
+                                child: Text("Close",
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'weak-password') {
+                        showErrorSnackBar('The password provided is too weak.');
+                      } else if (e.code == 'email-already-in-use') {
+                        showErrorSnackBar(
+                            'The account already exists for that email.');
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
                   } else {
                     if (nameController.text.isEmpty ||
                         nameController.text[0] !=
@@ -206,6 +228,36 @@ class _SignupPageState extends State<SignupPage> {
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Already have an account?",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // Right to Left animation using PageTransition Package
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          alignment: Alignment.topCenter,
+                          duration: Duration(seconds: 1),
+                          child: LoginPage(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Login",
+                      style: TextStyle(color: Colors.green, fontSize: 18),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
