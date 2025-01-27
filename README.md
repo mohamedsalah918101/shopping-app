@@ -22,6 +22,8 @@ This repository contains a Flutter application designed to demonstrate a shoppin
    - `ListView.builder` displays offers in a horizontally scrollable format.
 7. **Fade Animation**:
    - Introduces a fade-in effect for elements as they appear on the screen.
+8. **Firebase Auth**:
+   - Adding Firebase Authentication to the app.
 
 ## Instructions
 1. Add your translation JSON files:
@@ -45,3 +47,5 @@ This repository contains a Flutter application designed to demonstrate a shoppin
 ## Dependencies
 - `easy_localization: ^3.0.7`
 - `page_transition: ^2.2.1`
+- `firebase_core: ^3.10.1`
+- `firebase_auth: ^5.4.1`
