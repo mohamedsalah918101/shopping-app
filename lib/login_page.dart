@@ -116,7 +116,11 @@ class _LoginPageState extends State<LoginPage> {
                           showErrorSnackBar('No user found for that email.');
                         } else if (e.code == 'wrong-password') {
                           showErrorSnackBar('Wrong password provided for that user.');
+                        } else {
+                          showErrorSnackBar(e.message ?? 'Authentication failed.');
                         }
+                      } catch(e) {
+                        showErrorSnackBar('An unexpected error occurred.');
                       }
                     } else {
                        if (!emailController.text.contains('@')) {
