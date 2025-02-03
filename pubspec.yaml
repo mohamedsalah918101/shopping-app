@@ -38,6 +38,8 @@ dependencies:
   easy_localization: ^3.0.7
   firebase_core: ^3.10.1
   firebase_auth: ^5.4.1
+  local_auth: ^2.3.0
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:

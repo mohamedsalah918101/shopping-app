@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:shopping_app/profile_page.dart';
 
 import 'login_page.dart';
 
@@ -11,6 +14,8 @@ class ShoppingPage extends StatefulWidget {
 }
 
 class _ShoppingPageState extends State<ShoppingPage> {
+  final LocalAuthentication auth = LocalAuthentication();
+
   final List<String> productImages = [
     'assets/images/tv.jpg',
     'assets/images/tablet.jpg',
@@ -60,6 +65,26 @@ class _ShoppingPageState extends State<ShoppingPage> {
     },
   ];
 
+  Future<void> authenticateAndNavigate() async {
+    try {
+      bool isAuthenticated = await auth.authenticate(
+          localizedReason: 'Scan your fingerprint to access your profile',
+          options: AuthenticationOptions(biometricOnly: true));
+      if (isAuthenticated) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProfilePage(),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Authentication failed. Try again.')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -75,16 +100,35 @@ class _ShoppingPageState extends State<ShoppingPage> {
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        leading: IconButton(onPressed: () { 
-          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),));
-        }, icon: Icon(Icons.logout, color: Colors.white,),),
+        leading: IconButton(
+          onPressed: () async {
+            await FirebaseAuth.instance.signOut();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ));
+          },
+          icon: Icon(
+            Icons.logout,
+            color: Colors.white,
+          ),
+        ),
         actions: [
+          IconButton(
+            onPressed: authenticateAndNavigate,
+            icon: const Icon(Icons.account_circle, color: Colors.white, size: 30),
+          ),
           IconButton(
             onPressed: () {
               // To switch the Languages between Arabic and English
               changeLanguage();
             },
-            icon: Icon(Icons.language, size: 30, color: Colors.white,),
+            icon: Icon(
+              Icons.language,
+              size: 30,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
@@ -114,8 +158,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
 
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(
-                  tr('hot_offers'),
+              child: Text(tr('hot_offers'),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
@@ -258,11 +301,10 @@ class _ShoppingPageState extends State<ShoppingPage> {
   }
 
   changeLanguage() {
-    if(context.locale == Locale('en', 'US')) {
+    if (context.locale == Locale('en', 'US')) {
       context.setLocale(Locale('ar', 'EG'));
     } else {
       context.setLocale(Locale('en', 'US'));
     }
   }
-
 }
