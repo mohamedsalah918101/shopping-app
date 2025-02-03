@@ -24,6 +24,8 @@ This repository contains a Flutter application designed to demonstrate a shoppin
    - Introduces a fade-in effect for elements as they appear on the screen.
 8. **Firebase Auth**:
    - Adding Firebase Authentication to the app.
+9. **Biometric Authentication**:
+   - Biometric authentication for profile access.
 
 ## Instructions
 1. Add your translation JSON files:
@@ -49,3 +51,5 @@ This repository contains a Flutter application designed to demonstrate a shoppin
 - `page_transition: ^2.2.1`
 - `firebase_core: ^3.10.1`
 - `firebase_auth: ^5.4.1`
+- `local_auth: ^2.3.0`
+- `cached_network_image: ^3.4.1`
